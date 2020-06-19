@@ -1,0 +1,27 @@
+<div class="form-inline">
+  <div class="form-group">
+    <label for="folhapagamento_mes">Mês:</label>
+    <% if params[:mes] %>
+      <%= collection_select(:folhapagamento, :mes, @meses, :to_s, :to_s, { selected: params[:mes] }, class: "form-control")%>
+    <% else %>
+      <%= collection_select(:folhapagamento, :mes, @meses, :to_s, :to_s, { prompt: 'Selecione o mês...' }, class: "form-control")%>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <label for="folhapagamento_ano">Ano:</label>
+    <% if params[:ano] %>
+      <%= collection_select(:folhapagamento, :ano, @anos.uniq, :to_s, :to_s, { selected: params[:ano] }, class: "form-control")%>
+    <% else %>
+      <%= collection_select(:folhapagamento, :ano, @anos.uniq, :to_s, :to_s, { prompt: 'Selecione o mês...' }, class: "form-control")%>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <button id="folha_button" class="btn btn-primary btn-sm">Visualizar</button>
+  </div>
+</div>
+<br>
+<div id='loading_gif' class='text-center' style='display:none'>
+  <img src='assets/ajax-loader.gif'>
+</div>
+<div id="conteudo">
+</div>

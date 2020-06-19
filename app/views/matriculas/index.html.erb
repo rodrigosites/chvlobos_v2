@@ -1,0 +1,108 @@
+<!-- Table -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"><%= controller_name.capitalize %> Cadastrados(as) <small>// Quantidade: <%= @matriculas_total.size %></small></h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Ações:</div>
+        <%= link_to "Reimprimir contratos", reimprimir_contratos_path, { class: "dropdown-item", data: { confirm: "Tem certeza que deseja reimprimir todos os contratos?" } } %>
+        <%= link_to "Rematricular alunos", rematricular_path, { class: "dropdown-item", data: { confirm: "Tem certeza que deseja rematricular todos os alunos? Essa ação será irreversível." } } %>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="userTable" width="100%" cellspacing="0">
+        <thead>
+          <tr role="row">
+            <th class="sorting_asc" rowspan="1" colspan="1">Aluno</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Curso</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Ano</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Teoria</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Valor Mensal</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Data da Matrícula</th>
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 33%;">Opções</th>
+          </tr>
+       </thead>
+
+       <tbody>
+       		<% @matriculas.each do |matricula| %>
+			      <tr>
+              <td><%= matricula.aluno.nome %></td>
+			        <td><%= matricula.curso.nome %></td>
+              <td>
+                <% if matricula.curso.nome == "Musicalização Infantil" %>
+                  <% case matricula.ano %>
+                    <% when 1 %>
+                      Baby
+                    <% when 2 %>
+                      First 1
+                    <% when 3 %>
+                      First 2
+                    <% when 4 %>
+                      Módulo 1
+                    <% when 5 %>
+                      Módulo 2
+                    <% when 6 %>
+                      Módulo 3
+                    <% when 7 %>
+                      Módulo 4
+                    <% when 8 %>
+                      Módulo 5
+                  <% end %>
+                <% else %>
+                  <%= matricula.ano %>º Ano
+                <% end %>
+              </td>
+              <td>
+                <% if matricula.aulas.size == 1 && matricula.curso.nome == "Musicalização Infantil" || matricula.aulas.size > 1 && matricula.aulas.last.musicalizacao %>
+                  <% case matricula.teoria_ano %>
+                    <% when 1 %>
+                      Baby
+                    <% when 2 %>
+                      First 1
+                    <% when 3 %>
+                      First 2
+                    <% when 4 %>
+                      Módulo 1
+                    <% when 5 %>
+                      Módulo 2
+                    <% when 6 %>
+                      Módulo 3
+                    <% when 7 %>
+                      Módulo 4
+                    <% when 8 %>
+                      Módulo 5
+                  <% end %>
+                <% else %>
+                  <%= matricula.teoria_ano == 0 || matricula.teoria_ano == 99 ? "-" : "#{matricula.teoria_ano}º Ano" %>
+                <% end %>
+              </td>
+			        <td><%= number_to_currency(matricula.valor_mensal) %></td>
+			        <td><%= I18n.l(matricula.data_matricula.to_date) %></td>
+              <td>
+                <%= link_to matricula, :class => "btn btn-primary btn-icon-split btn-sm", :method => :get do %>
+                  <span class="icon text-white-50"><i class="fas fa-flag"></i></span>
+                  <span class="text">Abrir</span>
+                <% end %>
+                <%= link_to edit_matricula_path(matricula), :class => "btn btn-warning btn-icon-split btn-sm", :method => :get do %>
+                  <span class="icon text-white-50"><i class="fas fa-exclamation-triangle"></i></span>
+                  <span class="text">Editar</span>
+                <% end %>
+                <%= link_to matricula, :class => "btn btn-danger btn-icon-split btn-sm", :method => :delete, data: { confirm: "Tem certeza que deseja excluir o(a) #{controller_name.singularize} do aluno #{matricula.aluno.nome}?" } do %>
+                  <span class="icon text-white-50"><i class="fas fa-trash"></i></span>
+                  <span class="text">Encerrar</span>
+                <% end %>
+              </td>
+			      </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+		</div>
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+</div>
+<!-- End of Table -->

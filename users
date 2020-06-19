@@ -1,0 +1,19 @@
+ext
+exit
+\q
+\l
+\q
+\list
+\d
+\r
+\roles
+\lr
+\?
+select * from myapp_development
+myapp_development
+\dt
+\dt myapp_development
+\q
+\dt
+\l users
+\s users

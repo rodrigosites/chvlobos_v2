@@ -1,0 +1,42 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Lista de Alunos do Professor <%= @professor.nome %></h6>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Dia</th>
+          <th>Horário</th>
+          <th>Curso</th>
+          <th>Aluno</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @horarios.each do |horario| %>
+          <% horario.aulas.each do |aula| %>
+            <tr>
+              <td><%= dayPTBR(horario.dia) %>
+              <td><%= "#{hourPTBR(horario.horario)} até #{hourPTBR(horario.horario+50*60)}" %></td>
+              <% if aula.teoria %>
+                <td>Teoria</td>
+              <% elsif aula.musicalizacao %>
+                <td>Musicalização Infantil</td>
+              <% else %>
+                <td><%= aula.matricula.curso.nome %></td>
+              <% end %>
+              <td><%= aula.matricula.aluno.nome %></td>
+              <td><%= button_to 'Abrir Ficha Matricula', aula.matricula, :class => "btn btn-primary btn-xs", :method => :get  %></td>
+              <td><%= button_to 'Editar Matricula', edit_matricula_path(aula.matricula), :class => "btn btn-primary btn-xs", :method => :get  %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

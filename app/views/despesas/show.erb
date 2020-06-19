@@ -1,0 +1,30 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Despesa <%= @despesa.nome %> // <small>Situação: <u><%= @despesa.pago ? "Liquidada" : "Vencida" %></h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Ações:</div>
+        <%= link_to "Editar dados", edit_despesa_path(@despesa), class: "dropdown-item" %>
+        <%= link_to "Excluir", @despesa, { class: "dropdown-item", :method => :delete, confirm: "Tem certeza que deseja excluir o(a) #{controller_name.singularize} #{@despesa.nome} referência #{@despesa.referencia}?" } %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="card-body">
+  	<div class="form-group row">
+  	<div class="col-sm-12 mb-3 mb-sm-0">
+     	<ul class="list-group">
+        <li class="list-group-item"><b>Valor:</b> <%= number_to_currency(@despesa.valor) %></li>
+        <li class="list-group-item"><b>Vencimento:</b> <%= @despesa.vencimento.datePTBR %></li>
+	      <li class="list-group-item"><b>Descrição:</b> <%= @despesa.descricao ? @despesa.descricao : "Sem descrição cadastrada." %></li>
+	    </ul>
+	  </div>
+	</div>
+
+</div>

@@ -1,0 +1,180 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-laugh-wink"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">CHVL <sup><%= current_user.level %></sup></div>
+  </a>
+
+   <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item active">
+    <%= link_to index_path, class: "nav-link" do %>
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span></a>
+    <% end %>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Cadastros
+  </div>
+
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAlunos" aria-expanded="true" aria-controls="collapseAlunos">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Alunos</span>
+    </a>
+    <div id="collapseAlunos" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <%= link_to 'Cadastrar Novo Aluno', new_aluno_path, class: "collapse-item" %>
+        <%= link_to 'Listar Alunos Ativos', alunos_path, class: "collapse-item" %>
+        <%= link_to 'Listar Alunos Inativos', alunos_inativos_path, class: "collapse-item" %>
+      </div>
+    </div>
+  </li>
+    
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClientes" aria-expanded="true" aria-controls="collapseClientes">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Clientes</span>
+    </a>
+    <div id="collapseClientes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <%= link_to 'Cadastrar Novo Cliente', new_cliente_path, class: "collapse-item" %>
+        <%= link_to 'Listar Clientes Ativos', clientes_path, class: "collapse-item" %>
+        <%= link_to 'Listar Clientes Inativos', clientes_inativos_path, class: "collapse-item" %>
+      </div>
+    </div>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCursos" aria-expanded="true" aria-controls="collapseCursos">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Cursos</span>
+    </a>
+    <div id="collapseCursos" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <%= link_to 'Cadastrar Novo Curso', new_curso_path, class: "collapse-item" %>
+        <%= link_to 'Listar Cursos Ativos', cursos_path, class: "collapse-item" %>
+      </div>
+    </div>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMatriculas" aria-expanded="true" aria-controls="collapseMatriculas">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Matriculas</span>
+    </a>
+    <div id="collapseMatriculas" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <%= link_to 'Listar Matriculas Ativas', matriculas_path, class: "collapse-item" %>
+        <%= link_to 'Listar Encerradas', matriculas_encerradas_path, class: "collapse-item" %>
+        <%= link_to 'Matricular Curso Básico', matricula_nova_path, class: "collapse-item" %>
+        <%= link_to "Matricular Instr. Extra", matricula_extra_path, class: "collapse-item" %>
+      </div>
+    </div>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfessores" aria-expanded="true" aria-controls="collapseProfessores">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Professores</span>
+    </a>
+    <div id="collapseProfessores" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <%= link_to 'Cadastrar Novo Professor', new_professor_path, class: "collapse-item" %>
+        <%= link_to 'Listar Professores Ativos', professores_path, class: "collapse-item" %>
+        <%= link_to 'Listar Professores Inativos', professores_inativos_path, class: "collapse-item" %>
+      </div>
+    </div>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true" aria-controls="collapseUsers">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Usuários</span>
+    </a>
+    <div id="collapseUsers" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <%= link_to 'Cadastrar Novo Usuário', new_user_path, class: "collapse-item" %>
+        <%= link_to 'Listar Usuários Ativos', users_path, class: "collapse-item" %>
+      </div>
+    </div>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Finanças<br><br>
+  </div>
+
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCirculares" aria-expanded="true" aria-controls="collapseCirculares">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Circulares</span>
+    </a>
+    <div id="collapseCirculares" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <%= link_to 'Cadastrar Nova Circular', new_circular_path, class: "collapse-item" %>
+        <%= link_to 'Listar Circulares', circulares_path, class: "collapse-item" %>
+      </div>
+    </div>
+  </li>
+
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFinanceiro" aria-expanded="true" aria-controls="collapseFinanceiro">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Financeiro</span>
+    </a>
+    <div id="collapseFinanceiro" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <%= link_to "Folha de Pagamento", visualiza_folha_path, class: "collapse-item" %>
+        <%= link_to "Salários Vigentes", salarios_path, class: "collapse-item" %>
+        <%= link_to "Visualizar Boletos", visualiza_boletos_path, class: "collapse-item" %>
+      </div>
+    </div>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Sistema
+  </div>
+
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTipificacoes" aria-expanded="true" aria-controls="collapseTipificacoes">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Tipificações</span>
+    </a>
+    <div id="collapseTipificacoes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <%= link_to 'Cadastrar Tipificação', new_tipificacao_path, class: "collapse-item" %>
+        <%= link_to 'Listar Tipificações', tipificacoes_path, class: "collapse-item" %>
+      </div>
+    </div>
+  </li>
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
+
+</ul>
+<!-- End of Sidebar -->

@@ -1,0 +1,51 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"><%= @professor.nome %> - Status: <u><%= @professor.ativo ? 'Ativo' : 'Inativo' %></u></h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Ações:</div>
+        <%= link_to "Editar dados", edit_professor_path(@professor), class: "dropdown-item" %>
+        <%= link_to "Alterar status", alterna_professor_path(@professor), { class: "dropdown-item", data: { confirm: "Tem certeza que deseja alterar o status do(a) #{controller_name.singularize} #{@professor.nome}?" }} %>
+        <div class="dropdown-divider"></div>
+        <%= link_to "Ajustar horários", controlar_horarios_path(id: @professor.id), class: "dropdown-item" %>
+        <%= link_to "Consultar alunos vinculados", listar_alunos_path(id: @professor.id), class: "dropdown-item" %>
+      </div>
+    </div>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+  	<div class="form-group row">
+  	<div class="col-sm-6 mb-3 mb-sm-0">
+     	<ul class="list-group">
+	      <li class="list-group-item"><b>professor nº:</b> <%= @professor.id %></li>
+	      <li class="list-group-item"><b>Endereço:</b> <%= @professor.endereco %></li>
+	      <li class="list-group-item"><b>Cidade:</b> <%= @professor.cidade %></li>
+	      <li class="list-group-item"><b>CEP:</b> <%= @professor.cep %></li>
+	      <li class="list-group-item"><b>Telefone:</b> <%= @professor.telefone %></li>
+	      <li class="list-group-item"><b>RG:</b> <%= @professor.rg %></li>
+	      <li class="list-group-item"><b>Nome da Mãe:</b> <%= @professor.mae %></li>
+	      <li class="list-group-item"><b>Nacionalidade:</b> <%= @professor.nacionalidade %></li>
+	      <li class="list-group-item"><b>Escolaridade:</b> <%= @professor.escolaridade %></li>
+	    </ul>
+	  </div>
+	  <div class="col-sm-6">
+	    <ul class="list-group">
+	      <li class="list-group-item"><b>CPF:</b> <%= @professor.cpf %></li>
+	      <li class="list-group-item"><b>Bairro:</b> <%= @professor.bairro %></li>
+	      <li class="list-group-item"><b>Estado:</b> <%= @professor.uf %></li>
+	      <li class="list-group-item"><b>E-mail:</b> <%= @professor.email %></li>
+	      <li class="list-group-item"><b>Celular:</b> <%= @professor.celular %></li>
+	      <li class="list-group-item"><b>Nascimento:</b> <%= @professor.nascimento.datePTBR %></li>
+	      <li class="list-group-item"><b>Nome do Pai:</b> <%= @professor.pai %></li>
+	      <li class="list-group-item"><b>Profissão:</b> <%= @professor.profissao %></li>
+	      <li class="list-group-item"><b>Valor da Aula:</b> <%= number_to_currency(@professor.salarios.where(data_fim: nil).first.valor) %></li>
+	    </ul>
+	  </div>
+	</div>
+
+</div>

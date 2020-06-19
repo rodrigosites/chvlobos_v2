@@ -1,0 +1,28 @@
+$('#pratica_horario_id').empty();
+$('#pratica_horario_id').append( $('<option value>Selecione um horário</option>'));
+<% if @horarios.any? %>
+	<% tem_horario = false %>
+	<% @curso = Curso.find params[:curso_id] %>
+	<% @horarios.each do |horario| %>
+	  <% if !horario.matriculas.any? %>
+	  	<% tem_horario = true %>
+	  	$('#pratica_horario_id').append($('<option value="<%= horario.id %>"><%= dayPTBR(horario.dia) %> - <%= hourPTBR(horario.horario) %> até <%= hourPTBR(horario.horario+50*60) %></option>'));
+	  <% elsif horario.matriculas.where(curso_id: @curso.id).any? && !(horario.aulas.first.teoria || horario.aulas.first.musicalizacao) %>
+	  		<% tem_horario = true %>
+	  		$('#pratica_horario_id').append($('<option value="<%= horario.id %>"><%= dayPTBR(horario.dia) %> - <%= hourPTBR(horario.horario) %> até <%= hourPTBR(horario.horario+50*60) %> - Classe</option>'));
+	  <% elsif @curso.nome == "Teoria" && horario.aulas.where(teoria: true).any? %>
+	  		<% tem_horario = true %>
+	  		$('#pratica_horario_id').append($('<option value="<%= horario.id %>"><%= dayPTBR(horario.dia) %> - <%= hourPTBR(horario.horario) %> até <%= hourPTBR(horario.horario+50*60) %> - Classe</option>'));
+	  <% elsif @curso.nome == "Musicalização Infantil" && horario.aulas.where(musicalizacao: true).any? %>
+	  		<% tem_horario = true %>
+	  		$('#pratica_horario_id').append($('<option value="<%= horario.id %>"><%= dayPTBR(horario.dia) %> - <%= hourPTBR(horario.horario) %> até <%= hourPTBR(horario.horario+50*60) %> - Classe</option>'));  	
+	  <% end %>
+	<% end %>
+	<% unless tem_horario %>
+		$('#pratica_horario_id').empty();
+		$('#pratica_horario_id').append( $('<option value>Sem horários disponíveis</option>'));
+	<% end %>
+<% else %>
+	$('#pratica_horario_id').empty();
+	$('#pratica_horario_id').append( $('<option value>Sem horários disponíveis</option>'));
+<% end %>

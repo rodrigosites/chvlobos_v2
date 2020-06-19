@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+      <!-- Nested Row within Card Body -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="p-5">
+            <%= form_with model: @aluno, local: true, class: "user" do |f| %>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Vinculado ao Cliente', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Aluno é o cliente?', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= f.collection_select :cliente_id, @clientes, :id, :nome, { include_blank: true }, class: "form-control" %>
+                </div>
+                <div class="col-sm-6">
+                  <input type="checkbox" id="aluno_cliente" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Nome', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 text-center">
+                  <%= f.label 'CPF', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= f.text_field :nome, class: "form-control" %>
+                </div>
+                <div class="col-sm-6">
+                  <%= f.text_field :cpf, class: "form-control" %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'RG', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Data de Nascimento', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6  mb-3 mb-sm-0">
+                  <%= f.text_field :rg, class: "form-control" %>
+                </div>
+                <div class="col-sm-6">
+                  <% if action_name != "edit" %>
+                    <%= f.text_field :nascimento, class: "form-control" %>
+                  <% else %>
+                    <%= f.text_field :nascimento, class: "form-control", value: @aluno.nascimento.datePTBR %>
+                  <% end %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Celular', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Nacionalidade', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">            
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= f.text_field :celular, class: "form-control" %>
+                </div>
+                <div class="col-sm-6">
+                  <%= f.text_field :nacionalidade, class: "form-control" %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Pai', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Mãe', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= f.text_field :pai, class: "form-control" %>
+                </div>
+                <div class="col-sm-6">
+                  <%= f.text_field :mae, class: "form-control" %>
+                </div>
+              </div>
+               <%= f.submit "Salvar", class: "btn btn-primary btn-user btn-block" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

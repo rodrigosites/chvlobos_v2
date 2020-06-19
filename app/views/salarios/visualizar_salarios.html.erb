@@ -1,0 +1,61 @@
+<!-- Table -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Professor <%= @professor.nome %> // <small>Vigente: <u><%= number_to_currency(@salario_vigente.valor) %></u></h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="userTable" width="100%" cellspacing="0">
+        <thead>
+          <tr role="row">
+            <th class="sorting_asc" rowspan="1" colspan="1">Salário</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Início da Vigência</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Opções</th>
+          </tr>
+       </thead>
+       <tbody>
+          <tr>
+            <td><%= number_to_currency(@salario_vigente.valor) %></td>
+            <td><%= @salario_vigente.data_inicio.datePTBR %></td>
+            <td>
+              <%= link_to edit_salario_path(@salario_vigente), :class => "btn btn-warning btn-icon-split btn-sm", :method => :get do %>
+                <span class="icon text-white-50"><i class="fas fa-exclamation-triangle"></i></span>
+                <span class="text">Editar</span>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered" id="userTable" width="100%" cellspacing="0">
+        <thead>
+          <tr role="row">
+            <th class="sorting_asc" rowspan="1" colspan="1">Salário</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Início da Vigência</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Fim da Vigência</th>
+            <th class="sorting_asc" rowspan="1" colspan="1">Opções</th>
+          </tr>
+       </thead>
+       <tbody>
+       		<% @salarios_antigos.each do |salario| %>
+			      <tr>
+              <td><%= number_to_currency(salario.valor) %></td>
+              <td><%= salario.data_inicio.datePTBR %></td>
+              <td><%= salario.data_fim.datePTBR %></td>
+              <td>
+                <%= link_to edit_salario_path(salario), :class => "btn btn-warning btn-icon-split btn-sm", :method => :get do %>
+                  <span class="icon text-white-50"><i class="fas fa-exclamation-triangle"></i></span>
+                  <span class="text">Editar</span>
+                <% end %>
+              </td>
+			      </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+		</div>
+    <%== pagy_bootstrap_nav(@pagy) %>
+	</div>
+</div>
+<!-- End of Table -->

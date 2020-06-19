@@ -1,0 +1,47 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"><%= @cliente.nome %> - Status: <u><%= @cliente.ativo ? 'Ativo' : 'Inativo' %></u></h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Ações:</div>
+        <%= link_to "Editar dados", edit_cliente_path(@cliente), class: "dropdown-item" %>
+        <%= link_to "Alterar status", alterna_cliente_path(@cliente), { class: "dropdown-item", data: { confirm: "Tem certeza que deseja alterar o status do(a) #{controller_name.singularize} #{@cliente.nome}?" }} %>
+      </div>
+    </div>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+  	<div class="form-group row">
+  	<div class="col-sm-6 mb-3 mb-sm-0">
+     	<ul class="list-group">
+	      <li class="list-group-item"><b>Cliente nº:</b> <%= @cliente.id %></li>
+	      <li class="list-group-item"><b>Endereço:</b> <%= @cliente.endereco %></li>
+	      <li class="list-group-item"><b>Cidade:</b> <%= @cliente.cidade %></li>
+	      <li class="list-group-item"><b>CEP:</b> <%= @cliente.cep %></li>
+	      <li class="list-group-item"><b>Telefone:</b> <%= @cliente.telefone %></li>
+	      <li class="list-group-item"><b>RG:</b> <%= @cliente.rg %></li>
+	      <li class="list-group-item"><b>Nome da Mãe:</b> <%= @cliente.mae %></li>
+	      <li class="list-group-item"><b>Nacionalidade:</b> <%= @cliente.nacionalidade %></li>
+	    </ul>
+	  </div>
+	  <div class="col-sm-6">
+	    <ul class="list-group">
+	      <li class="list-group-item"><b>CPF:</b> <%= @cliente.cpf %></li>
+	      <li class="list-group-item"><b>Bairro:</b> <%= @cliente.bairro %></li>
+	      <li class="list-group-item"><b>Estado:</b> <%= @cliente.uf %></li>
+	      <li class="list-group-item"><b>E-mail:</b> <%= @cliente.email %></li>
+	      <li class="list-group-item"><b>Celular:</b> <%= @cliente.celular %></li>
+	      <li class="list-group-item"><b>Nascimento:</b> <%= @cliente.nascimento.datePTBR %></li>
+	      <li class="list-group-item"><b>Nome do Pai:</b> <%= @cliente.pai %></li>
+	      <li class="list-group-item"><b>Profissão:</b> <%= @cliente.profissao %></li>
+	    </ul>
+	  </div>
+	</div>
+	
+	<%= render 'alunos_vinculados' %>
+</div>

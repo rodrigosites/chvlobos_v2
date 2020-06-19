@@ -1,0 +1,96 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"><%= @curso.nome.capitalize %> - <%= @curso.basico ? "Básico" : "Profissional" %></u></h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Ações:</div>
+        <%= link_to "Editar dados", edit_curso_path(@curso), class: "dropdown-item" %>
+        <%= link_to "Excluir", @curso, :class => "dropdown-item", :method => :delete, data: { confirm: "Tem certeza que deseja excluir o(a) #{controller_name.singularize} #{@curso.nome}?" } %>
+        <div class="dropdown-divider"></div>
+        <%= link_to "Vincular professores", lecionar_path(curso_id: @curso.id), { class: "dropdown-item" } %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="card-body">
+  	<div class="form-group row">
+  	<div class="col-sm-6 mb-3 mb-sm-0">
+     	<ul class="list-group">
+	      <li class="list-group-item"><b>Valor Mensal:</b> <%= @circular.present? ? (@curso.basico? ? number_to_currency(@circular.valor_mensalidade) : number_to_currency(@circular.valor_profissionalizante)) : "Necessário cadastrar uma circular." %></li>
+	    </ul>
+	  </div>
+	  <div class="col-sm-6">
+	    <ul class="list-group">
+	      <li class="list-group-item"><b>Quantidade de Anos:</b> <%= @curso.anos %></li>
+	    </ul>
+	  </div>
+	</div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Professores Vinculados:</th>
+        <th></th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <% if @professores.size > 0 %>
+        <% @professores.each do |professor| %>
+          <tr>
+            <td><%= professor.nome %>
+            <td class="text-right">
+              <%= link_to professor, :class => "btn btn-primary btn-icon-split btn-sm", :method => :get do %>
+                  <span class="icon text-white-50"><i class="fas fa-flag"></i></span>
+                  <span class="text">Abrir</span>
+              <% end %>
+              <%= link_to get_leciona(@curso.id,professor.id), :class => "btn btn-danger btn-icon-split btn-sm", :method => :delete, data: { confirm: "Tem certeza que deseja excluir o(a) vínculo do(a) professor(a) #{professor.nome}?" } do %>
+                  <span class="icon text-white-50"><i class="fas fa-trash"></i></span>
+                  <span class="text">Excluir</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td>Ainda não há professores vinculados neste curso.</td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Alunos Matriculados:</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <% if @curso.matriculas.any? %>
+        <% @curso.matriculas.each do |matricula| %>
+          <tr>
+            <td><%= matricula.aluno.nome %>
+            <td><%= dayPTBR(matricula.horarios.first.dia) %></td>
+            <td><%= hourPTBR(matricula.horarios.first.horario) %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td>Ainda não há alunos matriculados neste curso.</td>
+          <td></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

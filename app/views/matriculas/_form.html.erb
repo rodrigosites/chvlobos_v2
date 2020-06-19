@@ -1,0 +1,173 @@
+<div class="container">
+  <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+      <!-- Nested Row within Card Body -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="p-5">
+            <%= form_with model: @matricula, local: true, class: "user" do |f| %>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Aluno', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Curso Principal', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= f.collection_select :aluno_id, @alunos, :id, :nome, { prompt: 'Selecione o aluno' }, class: "form-control" %>
+                </div>
+                <div class="col-sm-6">
+                  <%= f.collection_select :curso_id, @cursos, :id, :nome, { prompt: 'Selecione o curso' }, class: "form-control" %>
+                  <% if action_name == "edit" %>
+                      <b style="color: red">Anterior: (<%= @matricula.curso.nome %>)</b>
+                  <% end %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Ano do Curso Principal', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Valor Mensal', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= f.collection_select :ano, [], nil, nil, { prompt: 'Primeiro selecione o curso...' }, class: "form-control" %>
+                  <% if action_name == "edit" %>
+                  <% unless @matricula.curso.nome == "Musicalização Infantil" %>
+                    <b style="color: red">Anterior: (<%= @matricula.ano %>º Ano)</b>
+                  <% else %>
+                    <b style="color: red">
+                      <% case @matricula.ano %>
+                      <% when 1 %>
+                        (Baby)
+                      <% when 2 %>
+                        (First 1)
+                      <% when 2 %>
+                        (First 2)
+                      <% when 3 %>
+                        (Módulo 1)
+                      <% when 4 %>
+                        (Módulo 2)
+                      <% when 5 %>
+                        (Módulo 3)
+                      <% when 6 %>
+                        (Módulo 4)
+                      <% when 7 %>
+                        (Módulo 5)
+                      <% end %>
+                    </b>   
+                  <% end %>
+                <% end %>
+                </div>
+                <div class="col-sm-6">
+                  <%= f.text_field :valor_mensal, { class: "form-control", :readonly => true }%>
+                  <%= f.hidden_field :desconto, value: @circular_vigente.desconto %>
+                  <input type="checkbox" id="destrava_valor" style="transform: scale(1.3)">
+                  <%= f.label "Destravar campo valor mensal", class: "col-sm-0 control-label" %><br/>
+                  <input type="checkbox" id="desconto_check" style="transform: scale(1.3)">
+                  <%= f.label "Aplicar Desconto", class: "col-sm-0 control-label" %><br/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Professor do Curso Principal', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Horário do Curso Principal', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= collection_select(:professor, :id, [], :id, :nome, { prompt: 'Primeiro selecione o curso...' }, class: "form-control")%>
+                  <% if action_name == "edit" && @matricula.aulas.size > 0 %>
+                  <b style="color: red">Anterior: (<%= @matricula.aulas.first.horario.professor.nome %>)</b>
+                <% end %>
+                </div>
+                <%= fields_for(:pratica, @matricula.aulas.build) do |u| %>
+                  <%= u.hidden_field :matricula_id, value: Matricula.maximum(:id).to_i + 1 %>
+                  <div class="col-sm-6">
+                    <%= u.collection_select :horario_id, [], :id, :horario, { prompt: 'Primeiro selecione o professor...' }, {class: "form-control"} %>
+                    <% if action_name == "edit" && @matricula.aulas.first.try(:horario) %>
+                    <b style="color: red">Anterior: (<%= dayPTBR(@matricula.aulas.first.horario.dia) %> às <%= hourPTBR(@matricula.aulas.first.horario.horario) %>)</b>
+                  <% end %>
+                  </div>
+                <% end %>
+              </div>
+              <div class="form-group row" id="tipo_teoria_div">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label "Tipo de Teoria", class: "col-form-label-lg"  %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label "Ano de Teoria", class: "col-form-label-lg" %>
+                </div>
+              </div>
+              <div class="form-group row" id="matricula_teoria_div">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= select(:tipo,:teoria, options_for_select([["Teoria"],["Musicalização Infantil"]]), { prompt: "Selecione o tipo de teoria..." }, class: "form-control") %>
+                  <% if action_name == "edit" && @matricula.aulas.first.try(:horario)  %>
+                  <% if @matricula.aulas.second.teoria %>
+                    <b style="color: red">Anterior: (Teoria)</b>
+                  <% elsif @matricula.aulas.second.musicalizacao %>
+                    <b style="color: red">Anterior: (Musicalização Infantil)</b>
+                  <% end %>
+                <% end %> 
+                </div>
+                <div class="col-sm-6">
+                  <%= f.select :teoria_ano, [], { prompt: "Selecione o tipo de teoria..." }, class: "form-control" %>
+                  <% if action_name == "edit" && @matricula.aulas.first.try(:horario) && (@matricula.aulas.second.teoria || @matricula.aulas.second.musicalizacao) %>
+                  <b style="color: red">Anterior: (<%= @matricula.teoria_ano %>º Ano)</b>
+                <% end %>
+                </div>
+              </div>
+              <div class="form-group row" id="professor_teoria_div">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label "Professor de teoria", class: "col-form-label-lg" %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label "Horário de teoria", class: "col-form-label-lg" %>
+                </div>
+              </div>
+              <div class="form-group row" id="horario_teoria_div">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= collection_select(:professor_teoria, :id, [], :id, :nome, { prompt: 'Selecione o professor de teoria...'}, class: "form-control")%>
+                   <% if action_name == "edit" && @matricula.aulas.first.try(:horario) && (@matricula.aulas.second.teoria || @matricula.aulas.second.musicalizacao) %>
+                  <b style="color: red">Anterior: (<%= @matricula.aulas.second.horario.professor.nome %>)</b>
+                <% end %>
+                </div>
+                <%= fields_for(:teorica, @matricula.aulas.build) do |v| %>
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <%= v.hidden_field :teoria %>
+                    <%= v.hidden_field :matricula_id, value: Matricula.maximum(:id).to_i + 1 %>
+                    <%= v.collection_select :horario_id, [], :id, :horario, { prompt: 'Primeiro selecione o professor de teoria...' }, {class: "form-control"} %>
+                    <% if action_name == "edit" && (@matricula.aulas.second.teoria || @matricula.aulas.second.musicalizacao) %>
+                        <b style="color: red">Anterior: (<%= dayPTBR(@matricula.aulas.second.horario.dia) %> às <%= hourPTBR(@matricula.aulas.second.horario.horario) %>)</b>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label "Data da Matrícula:", class: "col-form-label-lg" %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <% if action_name != "edit" %>
+                    <%= f.text_field :data_matricula, class: "form-control", value: (I18n.l Date.today) %>
+                  <% else %>
+                    <%= f.text_field :data_matricula, class: "form-control", value: (@matricula.data_matricula.datePTBR) %>
+                  <% end %>
+                </div>
+              </div>
+              <%= f.submit "Salvar", class: "btn btn-primary btn-user btn-block" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

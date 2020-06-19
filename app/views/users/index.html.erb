@@ -1,0 +1,51 @@
+<!-- Table -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Usuários Cadastrados <small>// Quantidade: <%= @users_total.size %></h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="userTable" width="100%" cellspacing="0">
+        <thead>
+          <tr role="row">
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 3%;">id</th>
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 35%;">Email</th>
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 30%;">Nome</th>
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 10%;">Nível</th>
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 21%;">Opções</th>
+          </tr>
+       </thead>
+
+       <tbody>
+       		<% @users.each do |user| %>
+			      <tr>
+              <td><%= user.id %></td>
+			        <td><%= user.email %></td>
+			        <td><%= user.name %></td>
+			        <td><%= user.level %></td>
+              <td>
+                <% if user.is_pending? %>
+                  <%= link_to validate_user_path(user), :class => "btn btn-success btn-icon-split btn-sm", :method => :get, data: { confirm: "Tem certeza que deseja validar o usuário #{user.name}?" } do %>
+                      <span class="icon text-white-50"><i class="fas fa-check"></i></span>
+                      <span class="text">Validar</span>
+                  <% end %>
+                <% else %>
+                  <%= link_to edit_user_path(user), :class => "btn btn-warning btn-icon-split btn-sm", :method => :get do %>
+                    <span class="icon text-white-50"><i class="fas fa-exclamation-triangle"></i></span>
+                    <span class="text">Editar</span>
+                  <% end %>
+                <% end %>
+                <%= link_to user, :class => "btn btn-danger btn-icon-split btn-sm", :method => :delete, data: { confirm: "Tem certeza que deseja excluir o usuário #{user.name}?" } do %>
+                  <span class="icon text-white-50"><i class="fas fa-trash"></i></span>
+                  <span class="text">Excluir</span>
+                <% end %>
+              </td>
+			      </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+		</div>
+    <%== pagy_bootstrap_nav(@pagy) %>
+	</div>
+</div>
+<!-- End of Table -->

@@ -1,0 +1,79 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Matrícula nº <%= @matricula.id %></u></h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Ações:</div>
+        <%= link_to "Editar dados", edit_matricula_path(@matricula), class: "dropdown-item" %>
+        <%= link_to "Excluir", @matricula, :class => "dropdown-item", :method => :delete, data: { confirm: "Tem certeza que deseja excluir o(a) #{controller_name.singularize} de #{@matricula.aluno.nome}?" } %>
+        <div class="dropdown-divider"></div>
+        <%= link_to "Gerar Contrato", refaz_contrato_path(id: @matricula.id), :method => :post, class: "dropdown-item" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="card-body">
+  	<div class="form-group row">
+  	<div class="col-sm-6 mb-3 mb-sm-0">
+     	<ul class="list-group">
+	      <li class="list-group-item"><b>Aluno:</b> <%= @matricula.aluno.nome %></li>
+        <li class="list-group-item"><b>Curso Principal:</b> <%= @matricula.curso.nome %></li>
+        <li class="list-group-item"><b>Dia do Curso Principal:</b> <%= dayPTBR(@matricula.aulas.first.horario.dia) %></li>
+        <li class="list-group-item"><b>Horário do Curso Principal:</b> <%= hourPTBR(@matricula.aulas.first.horario.horario) %> até <%= hourPTBR(@matricula.aulas.first.horario.horario+50*60) %></li>
+        <li class="list-group-item"><b>Professor do Curso Principal:</b> <%= @matricula.aulas.first.horario.professor.nome %></li>
+        <li class="list-group-item"><b>Valor Mensal:</b> <%= number_to_currency(@matricula.valor_mensal) %></li>
+        <li class="list-group-item"><b>Data da Matrícula:</b> <%= I18n.l(@matricula.data_matricula.to_date) %></li>
+	    </ul>
+	  </div>
+	  <div class="col-sm-6">
+	    <ul class="list-group">
+	      <li class="list-group-item"><b>Vinculado ao Cliente:</b> <%= @matricula.aluno.cliente.id %> - <%= @matricula.aluno.cliente.nome %></li>
+        <% tipo_teoria = "" %>
+        <% if @matricula.aulas.last.teoria %>
+          <% tipo_teoria = "Teoria" %>
+        <% elsif @matricula.aulas.last.musicalizacao %>
+          <% tipo_teoria = "Musicalização Infantil" %>
+        <% end %>
+        <li class="list-group-item"><b>Curso de <%= tipo_teoria %>:</b>
+        <% if @matricula.teoria_ano > 0 && @matricula.teoria_ano <= 8 %>
+          <% if tipo_teoria == "Teoria" %>
+            <%= "#{@matricula.teoria_ano}º Ano" %></li>
+          <% else %>
+            <% case @matricula.teoria_ano %>
+              <% when 1 %>
+                Baby
+              <% when 2 %>
+                First 1
+              <% when 3 %>
+                First 2
+              <% when 4 %>
+                Módulo 1
+              <% when 5 %>
+                Módulo 2
+              <% when 6 %>
+                Módulo 3
+              <% when 7 %>
+                Módulo 4
+              <% when 8 %>
+                Módulo 5
+            <% end %>
+            </li>
+          <% end %>
+          <li class="list-group-item"><b>Dia da <%= tipo_teoria %>:</b> <%= dayPTBR(@matricula.aulas.last.horario.dia) %></li>
+          <li class="list-group-item"><b>Horário <%= tipo_teoria %>:</b> <%= hourPTBR(@matricula.aulas.last.horario.horario) %> até <%= hourPTBR(@matricula.aulas.last.horario.horario+50*60) %></li>
+          <li class="list-group-item"><b>Professor <%= tipo_teoria %>:</b> <%= @matricula.aulas.last.horario.professor.nome %></li>
+      <% elsif @matricula.teoria_ano == 99 %>
+        Instrumento Extra</li>
+      <% else %>
+        Formado em Teoria</li>
+      <% end %>
+	    </ul>
+    </div>
+	</div>
+</div>

@@ -1,0 +1,51 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Ajustar Horários do Professor <%= @professor.nome %></h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Ações:</div>
+        <%= link_to "Cadastrar novo horário", disponivel_path(professor_id: @professor.id), class: "dropdown-item" %>
+        <%= link_to "Limpar horários", destroy_all_path(professor_id: @professor.id), { class: "dropdown-item", data: { confirm: "Tem certeza que deseja excluir todos os horários do #{@professor.nome}?" }} %>
+      </div>
+    </div>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Disponibilidade de Horários</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+        <th>Dia</th>
+          <th>Horário</th>
+          <th>Nº Alunos</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @horarios.each do |horario| %>
+          <tr>
+            <td><%= dayPTBR(horario.dia) %></td>
+            <td><%= "#{hourPTBR(horario.horario)} até #{hourPTBR(horario.horario+50*60)}" %></td>
+            <td><%= link_to horario.matriculas.size, alunos_horario_path(horario_id: horario) %></a></td>
+            <td><%= button_to 'Editar', edit_horario_path(horario), :class => "btn btn-primary btn-xs", :method => :get %></td>
+            <td><%= button_to 'Excluir', horario, :class => "btn btn-primary btn-xs", :method => :delete, data: { confirm: "Tem certeza que deseja excluir a horario #{horario.horario}?" } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+</div>

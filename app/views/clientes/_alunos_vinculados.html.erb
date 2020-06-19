@@ -1,0 +1,64 @@
+<table class="table table-striped">
+  
+  <thead>
+    <tr>
+      <th>Alunos Vinculados</th>
+      <th>Curso</th>
+      <th>Valor Mensal</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% if @alunos.size > 0 %>
+    <% valor_total = 0 %>
+    <% @alunos.each do |aluno| %>
+      <% if aluno.matriculas.size > 0 %>
+        <% aluno.matriculas.each do |matricula| %>
+          <tr>
+            <td><%= aluno.nome %></td>
+            <td><%= matricula.curso.nome %></td>
+            <td><%= number_to_currency(matricula.valor_mensal) %></td><% valor_total = valor_total + matricula.valor_mensal %>
+            <td><%= button_to 'Abrir Ficha', aluno_path(aluno), :class => "btn btn-primary btn-xs", :method => :get %>
+            <%= button_to 'Editar Dados', edit_aluno_path(aluno), :class => "btn btn-primary btn-xs", :method => :get %>
+            <%= button_to 'Excluir', aluno, :class => "btn btn-primary btn-xs", :method => :delete, data: { confirm: "Tem certeza que deseja excluir o aluno #{aluno.nome}?" } %></td>
+          </tr>
+        <% end %>
+      <% else %> 
+        <tr>
+          <td><%= aluno.nome %></td>
+          <td>Aluno não está matriculado em cursos.</td>
+          <td>R$ 0,00</td>
+          <td>
+            <%= link_to aluno, :class => "btn btn-primary btn-icon-split btn-sm", :method => :get do %>
+                  <span class="icon text-white-50"><i class="fas fa-flag"></i></span>
+                  <span class="text">Abrir</span>
+                <% end %>
+                <%= link_to edit_aluno_path(aluno), :class => "btn btn-warning btn-icon-split btn-sm", :method => :get do %>
+                  <span class="icon text-white-50"><i class="fas fa-exclamation-triangle"></i></span>
+                  <span class="text">Editar</span>
+                <% end %>
+                <%= link_to alterna_aluno_path(aluno), :class => "btn btn-danger btn-icon-split btn-sm", :method => :get, data: { confirm: "Tem certeza que deseja alterar o status do(a) aluno(a) #{aluno.nome}?" } do %>
+                  <span class="icon text-white-50"><i class="fas fa-trash"></i></span>
+                  <span class="text"><%= aluno.ativo ? 'Desativar' : 'Ativar' %></span>
+                <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+    <tr>
+      <td><b>Mensalidade Total: <%= number_to_currency(valor_total) %></b></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  <% else %>
+    <tr>
+      <td>Nenhum aluno vinculado ao cliente.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

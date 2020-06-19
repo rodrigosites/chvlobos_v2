@@ -1,0 +1,11 @@
+<% if request.original_url.include? "/matricula_nova" %>
+  <%= render 'form' %>
+<% elsif request.original_url.include? "/matricula_extra" %>
+  <%= render 'form_extra' %>
+<% elsif request.env["HTTP_REFERER"].include? "/matricula_nova" %>
+  <%= render 'form' %>
+<% elsif request.env["HTTP_REFERER"].include? "/matricula_extra" %>
+  <%= render 'form_extra' %>
+<% else %>
+  <%= render 'form' %>
+<% end %>

@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+      <!-- Nested Row within Card Body -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="p-5">
+            <%= form_with model: @salario, local: true, class: "user" do |f| %>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Professor', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Salário', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <%= f.hidden_field :professor_id, value: @salario.professor.id %>
+                  <%= text_field_tag 'professor_nome', @salario.professor.nome, class: 'form-control', disabled: true %>
+                </div>
+                <div class="col-sm-6">               
+                  <%= f.text_field :valor, class: 'form-control' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Início da Vigência', class: 'col-form-label-lg' %>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0 text-center">
+                  <%= f.label 'Fim da Vigência', class: 'col-form-label-lg' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <% if action_name != "edit" %>
+                    <%= f.text_field :data_inicio, class: 'form-control' %>
+                  <% else %>
+                    <%= f.text_field :data_inicio, class: "form-control", value: @salario.data_inicio.datePTBR %>
+                  <% end %>
+                </div>
+                <div class="col-sm-6">
+                  <% if action_name != "edit" || @salario.data_fim.nil? %>
+                    <%= f.text_field :data_fim, class: 'form-control' %>
+                  <% else %>
+                    <%= f.text_field :data_fim, class: "form-control", value: @salario.data_fim.datePTBR %>
+                  <% end %>
+                </div>
+              </div>  
+              <%= f.submit "Salvar", class: "btn btn-primary btn-user btn-block" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

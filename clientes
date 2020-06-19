@@ -1,0 +1,44 @@
+ext
+exit
+\q
+\l
+\q
+\list
+\d
+\r
+\roles
+\lr
+\?
+select * from myapp_development
+myapp_development
+\dt
+\dt myapp_development
+\q
+\dt
+\l users
+\s users
+select * form users
+table users
+TABLE users
+\d users
+\d+ users
+SELECT * FROM users
+SELECT * FROM users;
+SELECT * FROM users
+SELECT * FROM users;
+SELECT * FROM users;
+\q
+select * from users;
+/d
+\d
+tables
+\l
+myapp_development
+\q
+select * from users;
+\q
+select * from users;
+delete * from users;
+\q
+\d
+\s clientes

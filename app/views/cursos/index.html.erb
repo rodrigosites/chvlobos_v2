@@ -1,0 +1,48 @@
+<!-- Table -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary"><%= controller_name.capitalize %> Cadastrados(as) <small>// Quantidade: <%= @cursos_total.size %></h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="userTable" width="100%" cellspacing="0">
+        <thead>
+          <tr role="row">
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 22%;">Curso</th>
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 15%;">Valor Mensal</th>
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 15%;">Professores</th>
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 15%;">Nº Alunos</th>
+            <th class="sorting_asc" rowspan="1" colspan="1" style="width: 33%;">Opções</th>
+          </tr>
+       </thead>
+
+       <tbody>
+       		<% @cursos.each do |curso| %>
+			      <tr>
+              <td><%= curso.nome %></td>
+			        <td><%= @circular.present? ? (curso.basico? ? number_to_currency(@circular.valor_mensalidade) : number_to_currency(@circular.valor_profissionalizante)) : "Necessário cadastrar uma circular." %></td>
+			        <td><%= curso.professores.size %></td>
+			        <td><%= curso.matriculas.size %></td>
+              <td>
+                <%= link_to curso, :class => "btn btn-primary btn-icon-split btn-sm", :method => :get do %>
+                  <span class="icon text-white-50"><i class="fas fa-flag"></i></span>
+                  <span class="text">Abrir</span>
+                <% end %>
+                <%= link_to edit_curso_path(curso), :class => "btn btn-warning btn-icon-split btn-sm", :method => :get do %>
+                  <span class="icon text-white-50"><i class="fas fa-exclamation-triangle"></i></span>
+                  <span class="text">Editar</span>
+                <% end %>
+                <%= link_to curso, :class => "btn btn-danger btn-icon-split btn-sm", :method => :delete, data: { confirm: "Tem certeza que deseja excluir o(a) #{controller_name.singularize} #{curso.nome}?" } do %>
+                  <span class="icon text-white-50"><i class="fas fa-trash"></i></span>
+                  <span class="text">Excluir</span>
+                <% end %>
+              </td>
+			      </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+		</div>
+    <%== pagy_bootstrap_nav(@pagy) %>
+	</div>
+</div>
+<!-- End of Table -->
